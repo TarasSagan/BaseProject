@@ -1,0 +1,64 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+
+    defaultConfig {
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+        applicationId globalConfiguration["androidApplicationId"]
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    def mobileUiDependencies = rootProject.ext.mobileUiDependencies
+
+    implementation mobileUiDependencies.kotlin
+    implementation mobileUiDependencies.rxKotlin
+    implementation mobileUiDependencies.rxAndroid
+
+    //dagger
+    implementation mobileUiDependencies.daggerAndroid
+    implementation mobileUiDependencies.daggerSupport
+    kapt mobileUiDependencies.daggerProcessor
+
+    //support
+    implementation mobileUiDependencies.appCompatV7
+    implementation mobileUiDependencies.supportRecyclerView
+    implementation mobileUiDependencies.supportDesign
+    implementation mobileUiDependencies.constraintLayout
+    implementation mobileUiDependencies.multidex
+
+    //retrofit
+    implementation mobileUiDependencies.retrofit
+    implementation mobileUiDependencies.retrofitConverterGson
+    implementation mobileUiDependencies.retrofitAdapterRx
+
+    //Room
+    implementation mobileUiDependencies.room
+    implementation mobileUiDependencies.roomRxAdapter
+    kapt mobileUiDependencies.roomCompiler
+
+}

@@ -1,0 +1,16 @@
+apply plugin: 'kotlin'
+
+sourceCompatibility = "8"
+targetCompatibility = "8"
+
+dependencies {
+    implementation project(':domain')
+
+    def dataDependencies = rootProject.ext.dataDependencies
+
+    implementation dataDependencies.kotlin
+    implementation dataDependencies.rxKotlin
+    implementation dataDependencies.dagger
+}
+
+
